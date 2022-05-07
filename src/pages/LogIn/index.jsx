@@ -8,46 +8,60 @@ import {
   Label,
   LinkContainer,
 } from '../SignUp/styles';
-import fetcher from '../../utils/fetcher';
-import axios from 'axios';
-import React, { useCallback, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import useSWR from 'swr';
+import React, { useCallback, useEffect, useState } from 'react';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithRedirect,
+  GoogleAuthProvider,
+} from 'firebase/auth';
+import { authService } from '../../fbbase';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LogIn = () => {
-  const { data: userData, error, revalidate } = useSWR('/api/users', fetcher);
   const [logInError, setLogInError] = useState(false);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
+  const auth = getAuth();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
+  const onSocialClick = useCallback(async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithRedirect(authService, provider);
+      const credential = await GoogleAuthProvider.credentialFromResult(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
   const onSubmit = useCallback(
-    e => {
+    async e => {
       e.preventDefault();
       setLogInError(false);
-      axios
-        .post(
-          '/api/users/login',
-          { email, password },
-          {
-            withCredentials: true,
-          },
-        )
-        .then(() => {
-          revalidate();
-        })
-        .catch(error => {
-          setLogInError(error.response?.data?.statusCode === 401);
-        });
+      try {
+        const data = await signInWithEmailAndPassword(auth, email, password);
+        console.log(data);
+      } catch (error) {
+        console.log(error.message);
+      }
     },
     [email, password],
   );
 
-  console.log(error, userData);
-  if (!error && userData) {
-    console.log('로그인됨', userData);
-    return navigate('/workspace/sleact/channel/일반');
-  }
+  useEffect(() => {
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        setIsLoggedIn(true);
+        const uid = user.uid;
+        navigate('/workspace');
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
+  }, []);
 
   return (
     <div id="container">
@@ -81,10 +95,14 @@ const LogIn = () => {
           )}
         </Label>
         <Button type="submit">로그인</Button>
+        <Button onClick={onSocialClick} name="google">
+          구글 로그인
+        </Button>
       </Form>
+
       <LinkContainer>
         아직 회원이 아니신가요?&nbsp;
-        <a href="/signup">회원가입 하러가기</a>
+        <Link to="/signup">회원가입 하러가기</Link>
       </LinkContainer>
     </div>
   );

@@ -9,14 +9,12 @@ import {
   LinkContainer,
   Success,
 } from './styles';
-import fetcher from '../../utils/fetcher';
-import axios from 'axios';
 import React, { useCallback, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import useSWR from 'swr';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { authService } from '../../fbbase';
 
 const SignUp = () => {
-  const { data: userData } = useSWR('/api/users', fetcher);
   const [signUpError, setSignUpError] = useState(false);
   const [signUpSuccess, setSignUpSuccess] = useState(false);
   const [mismatchError, setMismatchError] = useState(false);
@@ -24,7 +22,7 @@ const SignUp = () => {
   const [nickname, onChangeNickname] = useInput('');
   const [password, , setPassword] = useInput('');
   const [passwordCheck, , setPasswordCheck] = useInput('');
-  const navigate = useNavigate();
+  const auth = getAuth();
 
   const onChangePassword = useCallback(
     e => {
@@ -41,9 +39,8 @@ const SignUp = () => {
     },
     [password],
   );
-
   const onSubmit = useCallback(
-    e => {
+    async e => {
       e.preventDefault();
       if (!nickname || !nickname.trim()) {
         return;
@@ -51,22 +48,20 @@ const SignUp = () => {
       if (!mismatchError) {
         setSignUpError(false);
         setSignUpSuccess(false);
-        axios
-          .post('/api/users', { email, nickname, password })
-          .then(() => {
-            setSignUpSuccess(true);
-          })
-          .catch(error => {
-            setSignUpError(error.response?.data?.statusCode === 403);
-          });
+        try {
+          const data = await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password,
+          );
+          Navigate('/');
+        } catch (error) {
+          console.log(error.message);
+        }
       }
     },
     [email, nickname, password, mismatchError],
   );
-
-  if (userData) {
-    return navigate('/workspace/sleact');
-  }
 
   return (
     <div id="container">
@@ -130,7 +125,7 @@ const SignUp = () => {
       </Form>
       <LinkContainer>
         이미 회원이신가요?&nbsp;
-        <Link to="/login">로그인 하러가기</Link>
+        <Link to="/">로그인 하러가기</Link>
       </LinkContainer>
     </div>
   );

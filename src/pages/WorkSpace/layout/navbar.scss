@@ -1,0 +1,34 @@
+.navconcontainer {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  border-top: 1px solid black;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+
+  .user {
+    background-image: url('../../../image/user-solid.svg');
+    height: 24px;
+    width: 24px;
+    box-sizing: border-box;
+  }
+
+  .trophy {
+    background-image: url('../../../image/trophy-solid.svg');
+    height: 24px;
+    width: 24px;
+  }
+
+  .search {
+    background-image: url('../../../image/magnifying-glass-solid.svg');
+    height: 24px;
+    width: 24px;
+  }
+
+  .dumbel {
+    background-image: url('../../../image/dumbbell-solid.svg');
+    height: 24px;
+    width: 24px;
+  }
+}
