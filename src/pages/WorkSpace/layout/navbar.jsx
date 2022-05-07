@@ -17,10 +17,10 @@ const Navbar = () => {
         <div className="trophy"></div>
         <div>랭킹</div>
       </div>
-      <div>
+      <Link to={'/workspace/profile'}>
         <div className="user"></div>
         <div>유저</div>
-      </div>
+      </Link>
     </section>
   );
 };

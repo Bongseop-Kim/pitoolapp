@@ -5,6 +5,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import Navbar from './layout/navbar';
 import Search from './Components/search';
 import Home from './Components/home';
+import Profile from './Components/porfile';
 
 const WorkSpace = () => {
   const auth = getAuth();
@@ -30,7 +31,7 @@ const WorkSpace = () => {
         <Route path="/" element={<Home />} />
         <Route path="search" element={<Search />} />
         <Route />
-        <Route />
+        <Route path="profile" element={<Profile />} />
       </Routes>
       <button onClick={onLogout}>로그아웃</button>
       <Navbar />

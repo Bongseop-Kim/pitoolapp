@@ -56,6 +56,7 @@ const LogIn = () => {
       if (user) {
         setIsLoggedIn(true);
         const uid = user.uid;
+        // 아이디 정보
         navigate('/workspace');
       } else {
         setIsLoggedIn(false);
