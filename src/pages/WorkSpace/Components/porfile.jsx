@@ -1,51 +1,55 @@
 import React, { useState } from 'react';
 import { getAuth } from 'firebase/auth';
 import { db } from '../../../fbbase';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
-import { async } from '@firebase/util';
+import { collection, setDoc, doc, getDoc } from 'firebase/firestore';
 
 const Profile = () => {
   const auth = getAuth();
   const user = auth.currentUser;
   const displayName = user.displayName;
   const email = user.email;
+  const uId = user.uid;
 
   const [userProfile, setUserProfile] = useState('');
 
   const onChange = async e => {
     e.preventDefault();
-    try {
-      const docRef = await addDoc(collection(db, 'users'), {
-        first: 'Ada',
-        last: 'Lovelace',
-        born: 1815,
-      });
-      console.log('Document written with ID: ', docRef.id);
-    } catch (e) {
-      console.error('Error adding document: ', e);
-    }
+    const userRef = collection(db, 'userInfo');
+    await setDoc(doc(userRef, uId), {
+      name: displayName,
+      nickname: 'bongu',
+      gender: '남성',
+      career: '1년',
+      perweeks: '4회',
+      purpose: '다이어트',
+      age: 24,
+      weight: '75kg',
+    });
   };
 
   const onRead = async e => {
     e.preventDefault();
-    const querySnapshot = await getDocs(collection(db, 'users'));
-    querySnapshot.forEach(doc => {
-      console.log(doc.data(doc.first));
-    });
+    const docRef = doc(db, 'userInfo', uId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setUserProfile(docSnap.data());
+    } else {
+      // doc.data() will be undefined in this case
+      console.log('No such document!');
+    }
   };
 
   return (
     <>
-      <div>사용자 이름 : {displayName}</div>
-      <div>email : {email}</div>
-      <div> 닉네임 :</div>
-      <div> 성별 :</div>
-      <div> 운동경력 :</div>
-      <div> 일주일 운동 횟 수 :</div>
-      <div> 해결하고 싶은 고민 :</div>
-      <div> 나이 :</div>
-      <div> 키 :</div>
-      <div> 몸무게 :</div>
+      <div>사용자 이름 : {userProfile.name}</div>
+      <div> 닉네임 :{userProfile.nickname}</div>
+      <div> 성별 :{userProfile.gender}</div>
+      <div> 운동경력 : {userProfile.career}</div>
+      <div> 일주일 운동 횟 수 :{userProfile.perweeks}</div>
+      <div> 해결하고 싶은 고민 :{userProfile.purpose}</div>
+      <div> 나이 :{userProfile.age}</div>
+      <div> 몸무게 : {userProfile.weight}</div>
 
       <button onClick={onChange}>change</button>
       <button onClick={onRead}>Read</button>

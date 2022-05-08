@@ -15,6 +15,9 @@ import {
   onAuthStateChanged,
   signInWithRedirect,
   GoogleAuthProvider,
+  setPersistence,
+  browserSessionPersistence,
+  inMemoryPersistence,
 } from 'firebase/auth';
 import { authService } from '../../fbbase';
 import { Link, useNavigate } from 'react-router-dom';
@@ -28,25 +31,29 @@ const LogIn = () => {
   const navigate = useNavigate();
 
   const onSocialClick = useCallback(async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithRedirect(authService, provider);
-      const credential = await GoogleAuthProvider.credentialFromResult(result);
-    } catch (error) {
-      console.log(error);
-    }
+    setPersistence(auth, inMemoryPersistence)
+      .then(() => {
+        const provider = new GoogleAuthProvider();
+        return signInWithRedirect(auth, provider);
+      })
+      .catch(error => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
   }, []);
 
   const onSubmit = useCallback(
     async e => {
       e.preventDefault();
       setLogInError(false);
-      try {
-        const data = await signInWithEmailAndPassword(auth, email, password);
-        console.log(data);
-      } catch (error) {
-        console.log(error.message);
-      }
+      setPersistence(auth, browserSessionPersistence)
+        .then(() => {
+          return signInWithEmailAndPassword(auth, email, password);
+        })
+        .catch(error => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
     },
     [email, password],
   );
