@@ -2,16 +2,23 @@
   display: flex;
   justify-content: space-around;
   padding: 10px 0;
-  border-top: 1px solid black;
+  // border-top: 1px solid black;
+  background-color: rgb(240, 240, 240);
   position: fixed;
   bottom: 0;
-  width: 100%;
+  width: 100vw;
+  box-sizing: border-box;
+
+  .center{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
   .user {
     background-image: url('../../../image/user-solid.svg');
     height: 24px;
     width: 24px;
-    box-sizing: border-box;
   }
 
   .trophy {
@@ -30,5 +37,10 @@
     background-image: url('../../../image/dumbbell-solid.svg');
     height: 24px;
     width: 24px;
+  }
+
+  .nav_text{
+    color:rgb(27, 27, 27);
+    text-decoration: none;
   }
 }

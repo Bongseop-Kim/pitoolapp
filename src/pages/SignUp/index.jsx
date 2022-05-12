@@ -80,7 +80,7 @@ const SignUp = () => {
           </div>
         </Label>
         <Label id="nickname-label">
-          <span>닉네임</span>
+          <span>이름</span>
           <div>
             <Input
               type="text"

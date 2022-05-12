@@ -18,7 +18,12 @@ const Home = () => {
   return (
     <>
       <Header />
-      <Link to="/workspace/search">프로그램 선택하기</Link>
+      <Link to="/workspace/search" className='ch_program'>
+        {/* 원에 아이콘이나 이모지 넣으면 좋을 것 같아요 220211 이효민 */}
+        <div className='circle'></div>
+        프로그램 선택하기
+      </Link>
+      <div className="cartitle">💪 오늘의 운동</div>
       <Slider {...settings}>
         <div>
           <div className="carosel">1</div>
@@ -40,7 +45,7 @@ const Home = () => {
         </div>
       </Slider>
 
-      <div className="tiptitle">오늘의 TIP</div>
+      <div className="tiptitle">✔ 오늘의 TIP</div>
       <div className="tipContainer">블라블라</div>
     </>
   );

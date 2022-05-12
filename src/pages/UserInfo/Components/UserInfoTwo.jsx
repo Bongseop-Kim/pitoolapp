@@ -4,25 +4,23 @@ import { db } from '../../../fbbase';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Two = () => {
-  const userRef = collection(db, 'userInfo');
-  const auth = getAuth();
-  const user = auth.currentUser;
-
+const UserInfoTwo = props => {
   const navigate = useNavigate();
 
-  const maleFunctino = async e => {
+  const maleFunctino = e => {
     e.preventDefault();
-    console.log('onSubmitUserNickName');
-    await setDoc(doc(userRef, user.uid), { male: '남성' });
-    // navigate('/userinfo/three');
+    const copy = { ...props.userData };
+    copy.gender = '남자';
+    props.setUserData(copy);
+    navigate('/userinfo/userinfothree');
   };
 
-  const femaleFunctino = async e => {
+  const femaleFunctino = e => {
     e.preventDefault();
-    console.log('onSubmitUserNickName');
-    await setDoc(doc(userRef, user.uid), { male: '여성' });
-    // navigate('/userinfo/three');
+    const copy = { ...props.userData };
+    copy.gender = '여자';
+    props.setUserData(copy);
+    navigate('/userinfo/userinfothree');
   };
 
   return (
@@ -34,4 +32,4 @@ const Two = () => {
   );
 };
 
-export default Two;
+export default UserInfoTwo;

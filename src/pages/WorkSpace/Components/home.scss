@@ -1,16 +1,42 @@
+.ch_program{
+  text-decoration: none;
+  color: rgb(36, 36, 36);
+  padding: 10px;
+  border-radius: 15px;
+  background-color: rgb(115, 185, 255);
+  margin: 15px 10px;
+  display: flex;
+  align-items: center;
+  font: 700 20px/20px '';
+  .circle{
+    width: 80px;
+    height: 80px;
+    background-color: white;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+}
+
 .carosel {
   background-color: rgb(198, 198, 198);
-  margin: 20px;
+  margin: 10px 20px;
   height: 240px;
   border-radius: 4px;
 }
 
-.tiptitle {
+.tiptitle,.cartitle {
   margin-top: 60px;
+  padding: 0 0 5px 15px;
+  font: 700 20px/30px '';
+}
+.cartitle{
+  margin-top: 0;
 }
 
 .tipContainer {
   background-color: rgb(198, 198, 198);
-  border-radius: 4px 4px 0 0;
+  border-radius: 4px;
   height: 200px;
+  padding: 10px;
+  margin: 0 10px 5px 10px;
 }
