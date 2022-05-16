@@ -57,19 +57,19 @@ const Exercise = () => {
     const [checkedInputs, setCheckedInputs] = useState([]);
     const 스쿼트 = {
       name: '스쿼트',
-      weight: '100',
+      weight: '100kg',
     };
     const 벤치프레스 = {
       name: '벤치프레스',
-      weight: '80',
+      weight: '80kg',
     };
     const 시티드로우 = {
       name: '시티드로우',
-      weight: '60',
+      weight: '60kg',
     };
     const 트라이셉스프레스다운 = {
       name: '트라이셉스프레스다운',
-      weight: '20',
+      weight: '20kg',
     };
     const 카프레이즈 = {
       name: '카프레이즈',
