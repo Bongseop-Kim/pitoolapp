@@ -5,7 +5,6 @@ import { collection, doc, setDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
 const UserInfoThree = props => {
-  const [nickName, setNickName] = useState('');
   const userRef = collection(db, 'userInfo');
   const auth = getAuth();
   const user = auth.currentUser;
@@ -32,10 +31,8 @@ const UserInfoThree = props => {
 
   const onSubmitUserData = async e => {
     e.preventDefault();
-    console.log('onSubmitUserData');
     await setDoc(doc(userRef, user.uid), props.userData);
     navigate('/workspace');
-    // console.log(props.userData);
   };
 
   return (

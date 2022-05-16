@@ -16,15 +16,18 @@ const Search = () => {
 
   return (
     <>
-      <h2>루틴 고민은 이제 그만!</h2>
-      <p>
-        운동 목적, 고민, 나의 상황에 맞게 나에게 더욱 맞춰진 운동 루틴을 추천
+      <h2 className='title'>🤦‍♂️ 루틴 고민은 이제 그만! 🤦‍♀️</h2>
+      <p className='text'>
+        운동 목적, 고민, 나의 상황에 맞게<br/>나에게 더욱 맞춰진 운동 루틴을 추천
         받으세요!
       </p>
-      <button>루틴 추천 받기</button>
+      <button className='routine_btn'>
+        루틴 추천 받기
+        <span>&gt;</span>
+        </button>
 
-      <div>추천 프로그램</div>
-      <Slider {...settings}>
+      <div className='recommend'>👍 추천 프로그램</div>
+      <Slider {...settings} className='slider'>
         <div>
           <div className="carosel">1</div>
         </div>
