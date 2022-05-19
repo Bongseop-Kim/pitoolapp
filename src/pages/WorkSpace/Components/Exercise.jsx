@@ -54,11 +54,21 @@ const Exercise = () => {
             );
           }
           if (userWorkPassSnap.exists()) {
-            for (let i = 0; i < 10; i++) {
+            const maxdaycopy =
+              userRoutineSnap.data().perweek * userRoutineSnap.data().period;
+            for (let i = 0; i < maxdaycopy; i++) {
               if (userWorkPassSnap.data()[i] == true) {
-                console.log(userWorkPassSnap.data()[i]);
                 setDay(i + 2);
               }
+            }
+            // workpass가 첫번째가 false 일 때
+            if (userWorkPassSnap.data()[0] == false) {
+              setDay(1);
+            }
+            // workpass가 마지막이 true 일 때
+            if (userWorkPassSnap.data()[maxdaycopy - 1]) {
+              console.log('trueasdfdgsdfg');
+              setDay(maxdaycopy);
             }
           }
         }
