@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 import { db } from '../../../fbbase';
@@ -6,30 +6,48 @@ import { collection, doc, setDoc } from 'firebase/firestore';
 
 const RoutineCreatePerWeek = props => {
   const navigate = useNavigate();
-  const userRef = collection(db, 'userRoutine');
+  const userRoutineRef = collection(db, 'userRoutine');
+  const userWorkPassRef = collection(db, 'userWorkPass');
   const auth = getAuth();
   const user = auth.currentUser;
+  const [totalDay, setTotalDay] = useState('');
 
   const routinesubmit = async e => {
     e.preventDefault();
-    await setDoc(doc(userRef, user.uid), props.routineData);
+    await setDoc(doc(userRoutineRef, user.uid), props.routineData);
+    await setDoc(doc(userWorkPassRef, user.uid), totalDay);
     navigate('/workspace/exercise');
+  };
+
+  const range = end => {
+    let array = [];
+    for (let i = 1; i < end + 1; ++i) {
+      array.push(false);
+    }
+    return array;
   };
 
   const twotimes = () => {
     const copy = { ...props.routineData };
     copy.perweek = 2;
     props.setRoutineData(copy);
+    const obj = Object.assign({}, range(copy.perweek * copy.period));
+    setTotalDay(obj);
   };
+
   const fourtimes = () => {
     const copy = { ...props.routineData };
     copy.perweek = 4;
     props.setRoutineData(copy);
+    const obj = Object.assign({}, range(copy.perweek * copy.period));
+    setTotalDay(obj);
   };
   const sixtimes = () => {
     const copy = { ...props.routineData };
     copy.perweek = 6;
     props.setRoutineData(copy);
+    const obj = Object.assign({}, range(copy.perweek * copy.period));
+    setTotalDay(obj);
   };
 
   return (
