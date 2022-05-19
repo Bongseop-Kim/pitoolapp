@@ -18,17 +18,17 @@ const RoutineCreatePerWeek = props => {
 
   const twotimes = () => {
     const copy = { ...props.routineData };
-    copy.perweek = '2회 무분할';
+    copy.perweek = 2;
     props.setRoutineData(copy);
   };
   const fourtimes = () => {
     const copy = { ...props.routineData };
-    copy.perweek = '4회 2분할';
+    copy.perweek = 4;
     props.setRoutineData(copy);
   };
   const sixtimes = () => {
     const copy = { ...props.routineData };
-    copy.perweek = '6회 3분할';
+    copy.perweek = 6;
     props.setRoutineData(copy);
   };
 

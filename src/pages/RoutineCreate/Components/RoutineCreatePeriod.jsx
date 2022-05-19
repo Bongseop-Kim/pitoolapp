@@ -6,38 +6,38 @@ const RoutineCreatePeriod = props => {
 
   const period3 = () => {
     const copy = { ...props.routineData };
-    copy.period = '3주';
+    copy.period = 3;
     props.setRoutineData(copy);
     navigate('/routinecreate/routinecreateperweek');
   };
 
   const period4 = () => {
     const copy = { ...props.routineData };
-    copy.period = '4주';
+    copy.period = 4;
     props.setRoutineData(copy);
     navigate('/routinecreate/routinecreateperweek');
   };
   const period5 = () => {
     const copy = { ...props.routineData };
-    copy.period = '5주';
+    copy.period = 5;
     props.setRoutineData(copy);
     navigate('/routinecreate/routinecreateperweek');
   };
   const period6 = () => {
     const copy = { ...props.routineData };
-    copy.period = '6주';
+    copy.period = 6;
     props.setRoutineData(copy);
     navigate('/routinecreate/routinecreateperweek');
   };
   const period7 = () => {
     const copy = { ...props.routineData };
-    copy.period = '7주';
+    copy.period = 7;
     props.setRoutineData(copy);
     navigate('/routinecreate/routinecreateperweek');
   };
   const period8 = () => {
     const copy = { ...props.routineData };
-    copy.period = '8주';
+    copy.period = 8;
     props.setRoutineData(copy);
     navigate('/routinecreate/routinecreateperweek');
   };
