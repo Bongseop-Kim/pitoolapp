@@ -84,8 +84,6 @@ const Exercise = () => {
     }
   });
 
-  console.log(workPass);
-  console.log('hi');
   return (
     <>
       <Header />
@@ -98,7 +96,11 @@ const Exercise = () => {
         <button onClick={dayPlus}>&gt;</button>
       </div>
 
-      {<WorkPassNo theDayRoutine={theDayRoutine} />}
+      {workPass[day - 1] == true ? (
+        <div>hi</div>
+      ) : (
+        <WorkPassNo theDayRoutine={theDayRoutine} />
+      )}
     </>
   );
 };
