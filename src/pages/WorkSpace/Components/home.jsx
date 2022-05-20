@@ -21,24 +21,9 @@ const Home = () => {
     slidesToScroll: 1,
   };
 
-  useEffect(() => {
-    if (auth.currentUser) {
-      const uid = auth.currentUser.uid;
-      console.log('currentuserOK');
-      const docRef = doc(db, 'userRoutine', uid);
-
-      async function fetchData() {
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          console.log('Document data:', docSnap.data());
-          navigate('/workspace/exercise');
-        } else {
-          console.log('No such document!');
-        }
-      }
-      fetchData();
-    }
-  }, []);
+  const linktoexercise = () => {
+    navigate('/workspace/exercise');
+  };
 
   return (
     <>
@@ -50,11 +35,11 @@ const Home = () => {
       </Link>
       <div className="cartitle">💪 오늘의 운동</div>
       <Slider {...settings}>
-        <div>
-          <div className="carosel">1</div>
+        <div onClick={linktoexercise}>
+          <div className="carosel">운동 있음, 클릭하시오</div>
         </div>
         <div>
-          <div className="carosel">2</div>
+          <div className="carosel">운동 없음</div>
         </div>
         <div>
           <div className="carosel">3</div>
