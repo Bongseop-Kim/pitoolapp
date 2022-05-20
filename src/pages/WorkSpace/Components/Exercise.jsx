@@ -7,6 +7,7 @@ import './exercise.scss';
 import fullworkoutdatatype1 from './workoutroutinedata/fullworkoutdatatype1';
 import fullworkoutdatatype2 from './workoutroutinedata/fullworkoutdatatype2';
 import WorkPassNo from './WorkPass/WorkPassNo';
+import WorkPassYes from './WorkPass/WorkPassYes';
 
 const Exercise = () => {
   const auth = getAuth();
@@ -97,9 +98,9 @@ const Exercise = () => {
       </div>
 
       {workPass[day - 1] == true ? (
-        <div>hi</div>
+        <WorkPassYes day={day} />
       ) : (
-        <WorkPassNo theDayRoutine={theDayRoutine} />
+        <WorkPassNo theDayRoutine={theDayRoutine} day={day} />
       )}
     </>
   );

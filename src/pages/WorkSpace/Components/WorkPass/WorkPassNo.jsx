@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { db } from '../../../../fbbase';
 
 // 모달 스타일
 const customStyles = {
@@ -18,6 +21,8 @@ const WorkPassNo = props => {
   const [time, setTime] = useState(0);
   const [running, setRunning] = useState(false);
   const [isStart, setIsStart] = useState(false);
+  const auth = getAuth();
+  const user = auth.currentUser;
   const [modalIsOpen, setIsOpen] = React.useState(false);
   let subtitle;
 
@@ -38,11 +43,22 @@ const WorkPassNo = props => {
     // references are now sync'd and can be accessed.
     subtitle.style.color = '#f00';
   }
-  function closeModal() {
+  // 모달창 닫기 (운동 계속하기)
+  const continueModal = () => {
     setIsOpen(false);
-  }
+  };
+  // 모달창 닫기 (운동 종료하기)
+  const saveModal = async () => {
+    const userWorkPassRef = doc(db, 'userWorkPass', user.uid);
+    const userWorkPassRefSnap = await getDoc(userWorkPassRef);
+    const copy = userWorkPassRefSnap.data();
+    copy[0] = true;
+    await setDoc(doc(db, 'userWorkPass', user.uid), copy);
+    window.location.reload();
+    // 삼항 조건식 으로 PassYes or PassNo 변경, 값이 실시간으로 변경 X, 강제로 리로드
+  };
 
-  // 시작버튼
+  // 시작하기버튼
   const togglestart = () => {
     setIsStart(isStart => !isStart);
     if (isStart) {
@@ -50,7 +66,7 @@ const WorkPassNo = props => {
       console.log('end');
     } else {
       setRunning(true);
-      console.log('startt');
+      console.log('start');
     }
   };
   // 스톱워치
@@ -111,7 +127,7 @@ const WorkPassNo = props => {
       <Modal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
+        onRequestClose={continueModal}
         style={customStyles}
         contentLabel="Example Modal"
       >
@@ -119,7 +135,8 @@ const WorkPassNo = props => {
           운동을 종료하실 건가요?
         </h2>
         {/* <button onClick={1.데이1페이지 운동 완료 페이지로 전환하기}>종료하기</button> */}
-        <button onClick={closeModal}>계속하기</button>
+        <button onClick={continueModal}>계속하기</button>
+        <button onClick={saveModal}>저장하기</button>
       </Modal>
     </>
   );
