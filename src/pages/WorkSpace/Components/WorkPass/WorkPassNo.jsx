@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import { db } from '../../../../fbbase';
 
 // 모달 스타일
@@ -52,8 +52,10 @@ const WorkPassNo = props => {
     const userWorkPassRef = doc(db, 'userWorkPass', user.uid);
     const userWorkPassRefSnap = await getDoc(userWorkPassRef);
     const copy = userWorkPassRefSnap.data();
-    copy[0] = true;
+    copy[props.day - 1] = true;
+    console.log(checkedInputs);
     await setDoc(doc(db, 'userWorkPass', user.uid), copy);
+    await setDoc(doc(db, 'theDayWorkPass', user.uid), { ...checkedInputs });
     window.location.reload();
     // 삼항 조건식 으로 PassYes or PassNo 변경, 값이 실시간으로 변경 X, 강제로 리로드
   };
