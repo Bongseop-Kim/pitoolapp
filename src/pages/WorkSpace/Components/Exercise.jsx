@@ -16,6 +16,7 @@ const Exercise = () => {
   const [maxDay, setMaxDay] = useState('');
   const [theDayRoutine, setTheDayRoutine] = useState([]);
   const [workPass, setWorkPass] = useState({});
+  const [theDayWorkPass, setTheDayWorkPass] = useState([0]);
 
   useEffect(() => {
     onAuthStateChanged(auth, user => {
@@ -23,10 +24,12 @@ const Exercise = () => {
         const uid = user.uid;
         const userRoutineRef = doc(db, 'userRoutine', uid);
         const userWorkPassRef = doc(db, 'userWorkPass', uid);
+        const theDayWorkPassRef = doc(db, 'theDayWorkPass', uid);
 
         async function fetchData() {
           const userRoutineSnap = await getDoc(userRoutineRef);
           const userWorkPassSnap = await getDoc(userWorkPassRef);
+          const theDayWorkPassSnap = await getDoc(theDayWorkPassRef);
           if (userRoutineSnap.exists()) {
             setRoutine(userRoutineSnap.data().perweek);
             if (userRoutineSnap.data().perweek == 2) {
@@ -54,6 +57,9 @@ const Exercise = () => {
               console.log('trueasdfdgsdfg');
               setDay(maxdaycopy);
             }
+          }
+          if (theDayWorkPassSnap) {
+            setTheDayWorkPass(theDayWorkPassSnap.data());
           }
         }
         fetchData();
@@ -98,7 +104,7 @@ const Exercise = () => {
       </div>
 
       {workPass[day - 1] == true ? (
-        <WorkPassYes day={day} />
+        <WorkPassYes day={day} theDayWorkPass={theDayWorkPass} />
       ) : (
         <WorkPassNo theDayRoutine={theDayRoutine} day={day} />
       )}

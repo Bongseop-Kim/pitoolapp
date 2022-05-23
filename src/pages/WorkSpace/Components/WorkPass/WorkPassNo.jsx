@@ -117,9 +117,9 @@ const WorkPassNo = props => {
                 id={a.name}
                 type="checkbox"
                 onChange={e => {
-                  changeHandler(e.currentTarget.checked, a.name);
+                  changeHandler(e.currentTarget.checked, a);
                 }}
-                checked={checkedInputs.includes(a.name) ? true : false}
+                checked={checkedInputs.includes(a) ? true : false}
               />
             </main>
           </section>
