@@ -12,7 +12,6 @@ import {
 import React, { useCallback, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { authService } from '../../fbbase';
 
 const SignUp = () => {
   const [signUpError, setSignUpError] = useState(false);

@@ -25,6 +25,11 @@ const WorkPassNo = props => {
   const user = auth.currentUser;
   const [modalIsOpen, setIsOpen] = React.useState(false);
   let subtitle;
+  const current = new Date();
+
+  const year = current.getFullYear();
+  const month = current.getMonth() + 1;
+  const date = current.getDate();
 
   // 체크박스 상태관리
   const changeHandler = (checked, id) => {
@@ -49,13 +54,15 @@ const WorkPassNo = props => {
   };
   // 모달창 닫기 (운동 종료하기)
   const saveModal = async () => {
-    const userWorkPassRef = doc(db, 'userWorkPass', user.uid);
-    const userWorkPassRefSnap = await getDoc(userWorkPassRef);
-    const copy = userWorkPassRefSnap.data();
+    const booleanTotalRoutineRef = doc(db, 'booleanTotalRoutine', user.uid);
+    const booleanTotalRoutineRefSnap = await getDoc(booleanTotalRoutineRef);
+    const copy = booleanTotalRoutineRefSnap.data();
     copy[props.day - 1] = true;
     console.log(checkedInputs);
-    await setDoc(doc(db, 'userWorkPass', user.uid), copy);
-    await setDoc(doc(db, 'theDayWorkPass', user.uid), { ...checkedInputs });
+    await setDoc(doc(db, 'booleanTotalRoutine', user.uid), copy);
+    await setDoc(doc(db, 'exerciseAndWeightOfTheDay', user.uid), {
+      ...checkedInputs,
+    });
     window.location.reload();
     // 삼항 조건식 으로 PassYes or PassNo 변경, 값이 실시간으로 변경 X, 강제로 리로드
   };
@@ -102,29 +109,27 @@ const WorkPassNo = props => {
         </div>
       </div>
 
-      {props.theDayRoutine.map(function (a) {
-        return (
-          <section>
-            <header>
-              <div>5세트</div>
-              <div>{a.name}</div>
-            </header>
+      {props.theDayRoutine.map((a, i) => (
+        <section key={i}>
+          <header>
+            <div>5세트</div>
+            <div>{a.name}</div>
+          </header>
 
-            <main>
-              <div>{a.weight}</div>
-              <div>10회</div>
-              <input
-                id={a.name}
-                type="checkbox"
-                onChange={e => {
-                  changeHandler(e.currentTarget.checked, a);
-                }}
-                checked={checkedInputs.includes(a) ? true : false}
-              />
-            </main>
-          </section>
-        );
-      })}
+          <main>
+            <div>{a.weight}</div>
+            <div>10회</div>
+            <input
+              id={a.name}
+              type="checkbox"
+              onChange={e => {
+                changeHandler(e.currentTarget.checked, a);
+              }}
+              checked={checkedInputs.includes(a) ? true : false}
+            />
+          </main>
+        </section>
+      ))}
 
       <Modal
         isOpen={modalIsOpen}

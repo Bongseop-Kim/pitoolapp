@@ -2,7 +2,7 @@ import React from 'react';
 
 const WorkPassYes = props => {
   const current = new Date();
-  let lengthOfObject = Object.keys(props.theDayWorkPass).length;
+  let lengthOfObject = Object.keys(props.exerciseAndWeightOfTheDay).length;
 
   const date = `${current.getFullYear()}/${
     current.getMonth() + 1

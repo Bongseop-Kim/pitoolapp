@@ -3,8 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import Header from '../layout/header';
 import Slider from 'react-slick';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../fbbase';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './home.scss';

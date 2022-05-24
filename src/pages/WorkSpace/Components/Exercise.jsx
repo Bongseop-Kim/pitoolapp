@@ -16,20 +16,28 @@ const Exercise = () => {
   const [maxDay, setMaxDay] = useState('');
   const [theDayRoutine, setTheDayRoutine] = useState([]);
   const [workPass, setWorkPass] = useState({});
-  const [theDayWorkPass, setTheDayWorkPass] = useState([0]);
+  const [exerciseAndWeightOfTheDay, setExerciseAndWeightOfTheDay] = useState([
+    0,
+  ]);
 
   useEffect(() => {
     onAuthStateChanged(auth, user => {
       if (user) {
         const uid = user.uid;
         const userRoutineRef = doc(db, 'userRoutine', uid);
-        const userWorkPassRef = doc(db, 'userWorkPass', uid);
-        const theDayWorkPassRef = doc(db, 'theDayWorkPass', uid);
+        const booleanTotalRoutineRef = doc(db, 'booleanTotalRoutine', uid);
+        const exerciseAndWeightOfTheDayRef = doc(
+          db,
+          'exerciseAndWeightOfTheDay',
+          uid,
+        );
 
         async function fetchData() {
           const userRoutineSnap = await getDoc(userRoutineRef);
-          const userWorkPassSnap = await getDoc(userWorkPassRef);
-          const theDayWorkPassSnap = await getDoc(theDayWorkPassRef);
+          const booleanTotalRoutineSnap = await getDoc(booleanTotalRoutineRef);
+          const exerciseAndWeightOfTheDaySnap = await getDoc(
+            exerciseAndWeightOfTheDayRef,
+          );
           if (userRoutineSnap.exists()) {
             setRoutine(userRoutineSnap.data().perweek);
             if (userRoutineSnap.data().perweek == 2) {
@@ -39,27 +47,27 @@ const Exercise = () => {
               userRoutineSnap.data().period * userRoutineSnap.data().perweek,
             );
           }
-          if (userWorkPassSnap.exists()) {
+          if (booleanTotalRoutineSnap.exists()) {
             const maxdaycopy =
               userRoutineSnap.data().perweek * userRoutineSnap.data().period;
-            setWorkPass(userWorkPassSnap.data());
+            setWorkPass(booleanTotalRoutineSnap.data());
             for (let i = 0; i < maxdaycopy; i++) {
-              if (userWorkPassSnap.data()[i] == true) {
+              if (booleanTotalRoutineSnap.data()[i] == true) {
                 setDay(i + 2);
               }
             }
             // workpass가 첫번째가 false 일 때
-            if (userWorkPassSnap.data()[0] == false) {
+            if (booleanTotalRoutineSnap.data()[0] == false) {
               setDay(1);
             }
             // workpass가 마지막이 true 일 때
-            if (userWorkPassSnap.data()[maxdaycopy - 1]) {
+            if (booleanTotalRoutineSnap.data()[maxdaycopy - 1]) {
               console.log('trueasdfdgsdfg');
               setDay(maxdaycopy);
             }
           }
-          if (theDayWorkPassSnap) {
-            setTheDayWorkPass(theDayWorkPassSnap.data());
+          if (exerciseAndWeightOfTheDaySnap.exists()) {
+            setExerciseAndWeightOfTheDay(exerciseAndWeightOfTheDaySnap.data());
           }
         }
         fetchData();
@@ -104,7 +112,10 @@ const Exercise = () => {
       </div>
 
       {workPass[day - 1] == true ? (
-        <WorkPassYes day={day} theDayWorkPass={theDayWorkPass} />
+        <WorkPassYes
+          day={day}
+          exerciseAndWeightOfTheDay={exerciseAndWeightOfTheDay}
+        />
       ) : (
         <WorkPassNo theDayRoutine={theDayRoutine} day={day} />
       )}

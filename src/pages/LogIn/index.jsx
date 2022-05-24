@@ -19,7 +19,6 @@ import {
   browserSessionPersistence,
   inMemoryPersistence,
 } from 'firebase/auth';
-import { authService } from '../../fbbase';
 import { Link, useNavigate } from 'react-router-dom';
 
 const LogIn = () => {

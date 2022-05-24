@@ -7,7 +7,7 @@ import { collection, doc, setDoc } from 'firebase/firestore';
 const RoutineCreatePerWeek = props => {
   const navigate = useNavigate();
   const userRoutineRef = collection(db, 'userRoutine');
-  const userWorkPassRef = collection(db, 'userWorkPass');
+  const booleanTotalRoutineRef = collection(db, 'booleanTotalRoutine');
   const auth = getAuth();
   const user = auth.currentUser;
   const [totalDay, setTotalDay] = useState('');
@@ -15,7 +15,7 @@ const RoutineCreatePerWeek = props => {
   const routinesubmit = async e => {
     e.preventDefault();
     await setDoc(doc(userRoutineRef, user.uid), props.routineData);
-    await setDoc(doc(userWorkPassRef, user.uid), totalDay);
+    await setDoc(doc(booleanTotalRoutineRef, user.uid), totalDay);
     navigate('/workspace/exercise');
   };
 
